@@ -1,0 +1,26 @@
+{
+  "name": "toys-api",
+  "version": "1.0.0",
+  "description": "Toys REST API - Node.js / Express / MongoDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "seed": "node scripts/seed.js",
+    "make-admin": "node scripts/makeAdmin.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "joi": "^18.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.1"
+  }
+}

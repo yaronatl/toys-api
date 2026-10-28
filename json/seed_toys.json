@@ -1,0 +1,14 @@
+[
+  { "name": "Castle Blocks Set", "info": "500 colorful building blocks to build a castle", "category": "Building", "price": 120, "img_url": "https://picsum.photos/seed/castle/400/300" },
+  { "name": "Mega Bricks Box", "info": "Big box of 1000 bricks for creative builders", "category": "Building", "price": 180, "img_url": "https://picsum.photos/seed/bricks/400/300" },
+  { "name": "Wooden Train Tracks", "info": "Wooden railway tracks with bridges and tunnels", "category": "Building", "price": 95, "img_url": "https://picsum.photos/seed/tracks/400/300" },
+  { "name": "Magnetic Tiles", "info": "Magnetic building tiles in 3 shapes and many colors", "category": "Building", "price": 150, "img_url": "https://picsum.photos/seed/tiles/400/300" },
+  { "name": "Princess Doll", "info": "Soft doll with a pink dress and a crown", "category": "Dolls", "price": 65, "img_url": "https://picsum.photos/seed/princess/400/300" },
+  { "name": "Teddy Bear", "info": "Big cuddly teddy bear, 60 cm", "category": "Dolls", "price": 80, "img_url": "https://picsum.photos/seed/teddy/400/300" },
+  { "name": "Doll House", "info": "Wooden doll house with furniture and a small garden", "category": "Dolls", "price": 250, "img_url": "https://picsum.photos/seed/dollhouse/400/300" },
+  { "name": "Baby Doll With Bottle", "info": "Baby doll that comes with a bottle and a blanket", "category": "Dolls", "price": 45, "img_url": "" },
+  { "name": "Remote Control Car", "info": "Fast red car with a remote control and rechargeable battery", "category": "Vehicles", "price": 210, "img_url": "https://picsum.photos/seed/rccar/400/300" },
+  { "name": "Fire Truck", "info": "Metal fire truck with a ladder and a siren", "category": "Vehicles", "price": 70, "img_url": "https://picsum.photos/seed/firetruck/400/300" },
+  { "name": "Mini Cars 10 Pack", "info": "Ten small metal cars in a gift box", "category": "Vehicles", "price": 35, "img_url": "https://picsum.photos/seed/minicars/400/300" },
+  { "name": "Airplane Glider", "info": "Light glider airplane, no batteries needed", "category": "Vehicles", "price": 25, "img_url": "" }
+]

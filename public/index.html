@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <title>Toys REST API</title>
+  <style>
+    pre { background:#f4f4f4; padding:10px; border-radius:6px; }
+    td, th { vertical-align: top; }
+  </style>
+</head>
+<body>
+  <div class="container my-4">
+    <h1>Toys REST API</h1>
+    <p>
+      Base URL: <code id="domain">http://localhost:3001</code>.
+      Requests and responses are JSON.
+    </p>
+
+    <h2>Getting started</h2>
+    <ol>
+      <li>Sign up with <code>POST /users</code> (name, email, password).</li>
+      <li>Log in with <code>POST /users/login</code> to get a token (valid for 60 minutes).</li>
+      <li>Send the token in the <code>x-api-key</code> header on the routes marked "token".</li>
+    </ol>
+
+    <h2>Pagination</h2>
+    <p>
+      Lists return up to 10 toys. <code>?skip=</code> is the page number:
+      <code>skip=0</code> (or no skip) is the first 10, <code>skip=1</code> the next 10, and so on.
+      Lists can also be sorted with <code>?sort=</code> (<code>name</code>, <code>category</code>,
+      <code>price</code>, <code>createdAt</code>; default <code>_id</code>) and <code>?reverse=yes</code>.
+    </p>
+
+    <h2>Toys</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Token</th><th>Info</th><th>Query / Body</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GET</td><td><code>/toys</code></td><td>no</td>
+          <td>List of toys, 10 per page.</td>
+          <td>
+            <code>?skip=</code> page number<br>
+            <code>?s=</code> (optional) text in name or info<br>
+            <code>?category=</code> (optional) category name
+          </td>
+        </tr>
+        <tr>
+          <td>GET</td><td><code>/toys/search</code></td><td>no</td>
+          <td>Search by name or info (case-insensitive). <code>?s=</code> is required.</td>
+          <td><code>?s=</code> text, <code>?skip=</code> page number</td>
+        </tr>
+        <tr>
+          <td>GET</td><td><code>/toys/category/:catname</code></td><td>no</td>
+          <td>Toys of one category.</td>
+          <td><code>?skip=</code> page number</td>
+        </tr>
+        <tr>
+          <td>GET</td><td><code>/toys/prices</code></td><td>no</td>
+          <td>Toys in a price range (both ends included).</td>
+          <td><code>?min=</code>, <code>?max=</code>, <code>?skip=</code></td>
+        </tr>
+        <tr>
+          <td>GET</td><td><code>/toys/single/:id</code></td><td>no</td>
+          <td>One toy by id.</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>GET</td><td><code>/toys/count</code></td><td>no</td>
+          <td>Number of toys and number of pages, e.g. <code>{"count":12,"pages":2}</code>.</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>POST</td><td><code>/toys</code></td><td>yes</td>
+          <td>Add a toy. The owner (<code>user_id</code>) is taken from the token and must not be sent. Returns 201 and the new toy.</td>
+          <td>
+<pre>{
+  "name": "string, 2-100",
+  "info": "string, 2-400",
+  "category": "string, 2-100",
+  "price": "number, 1-9999",
+  "img_url": "string, optional"
+}</pre>
+          </td>
+        </tr>
+        <tr>
+          <td>PUT</td><td><code>/toys/:id</code></td><td>yes</td>
+          <td>Edit a toy. Only its owner can edit it (403 for another user, 404 if it doesn't exist).</td>
+          <td>Same body as POST /toys</td>
+        </tr>
+        <tr>
+          <td>DELETE</td><td><code>/toys/:id</code></td><td>yes</td>
+          <td>Delete a toy. Only its owner can delete it; an admin can delete any toy.</td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Users</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Token</th><th>Info</th><th>Body</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>POST</td><td><code>/users</code></td><td>no</td>
+          <td>Sign up. The email must be unique (400 otherwise). The password is stored hashed and is not returned.</td>
+          <td>
+<pre>{
+  "name": "string, 2-100",
+  "email": "valid email",
+  "password": "string, 3-100"
+}</pre>
+          </td>
+        </tr>
+        <tr>
+          <td>POST</td><td><code>/users/login</code></td><td>no</td>
+          <td>Log in. Returns <code>{"token": "..."}</code>. 401 if the email or password is wrong.</td>
+          <td>
+<pre>{
+  "email": "valid email",
+  "password": "string"
+}</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Errors</h2>
+    <p>
+      Errors are returned as JSON, usually <code>{"err": "..."}</code>. Validation errors return the Joi details array.
+      400 for invalid input, 401 for a missing, invalid or expired token, 403 when the toy belongs to another user,
+      404 when nothing is found, 502 on a database error.
+    </p>
+
+    <h2>Example</h2>
+<pre>curl -X POST DOMAIN/users/login -H "Content-Type: application/json" \
+     -d '{"email":"dana@example.com","password":"123456"}'
+
+curl -X POST DOMAIN/toys -H "Content-Type: application/json" -H "x-api-key: TOKEN" \
+     -d '{"name":"Robot","info":"Walking robot","category":"Vehicles","price":99}'
+
+curl "DOMAIN/toys?skip=0"</pre>
+  </div>
+
+  <script>
+    document.getElementById("domain").textContent = window.location.origin;
+    document.querySelectorAll("pre").forEach(p => {
+      p.textContent = p.textContent.replaceAll("DOMAIN", window.location.origin);
+    });
+  </script>
+</body>
+</html>
