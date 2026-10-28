@@ -3,7 +3,7 @@
 REST API for a toys shop: users sign up and log in, and logged-in users manage their own toys.
 Stack: Node.js, Express, MongoDB (Mongoose), Joi, bcrypt, JWT.
 
-Live on Vercel: <url>
+Live on Vercel: https://toys-api-nu.vercel.app
 
 ## Setup
 Create a `.env` file (see `.env.example`) with:
